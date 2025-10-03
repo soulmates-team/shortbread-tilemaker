@@ -9,7 +9,7 @@ The shape file must have the following fields:
 
 * `admin_leve`: value of OSM `admin_level=*` tag
 * `name`: value of OSM `name=*` tag
-* `name_de`: value of OSM `name:de=*` tag
+* `name_ru`: value of OSM `name:ru=*` tag
 * `name_en`: value of OSM `name:en=*` tag
 * `way_area`: polygon area in ha in Web Mercator projection
 
@@ -44,5 +44,5 @@ osm2pgsql -d adminpolygons --hstore --multi-geometry --latlong admin.osm.pbf
 Export shape file:
 
 ```sh
-pgsql2shp -f admin-points.shp adminpolygons "SELECT admin_level, name, tags->'name:de' AS name_de, tags->'name:en' AS name_en, ST_Area(ST_Transform(way, 3857)) / 10000 AS way_area, ST_PointOnSurface(way) AS geom FROM planet_osm_polygon WHERE osm_id < 0 AND boundary = 'administrative' AND admin_level IN ('2', '4') ORDER BY way_area DESC;"
+pgsql2shp -f admin-points.shp adminpolygons "SELECT admin_level, name, tags->'name:ru' AS name_ru, tags->'name:en' AS name_en, ST_Area(ST_Transform(way, 3857)) / 10000 AS way_area, ST_PointOnSurface(way) AS geom FROM planet_osm_polygon WHERE osm_id < 0 AND boundary = 'administrative' AND admin_level IN ('2', '4') ORDER BY way_area DESC;"
 ```

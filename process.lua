@@ -79,14 +79,14 @@ function fillWithFallback(value1, value2, value3)
 	return value3
 end
 
--- Set name, name_en, and name_de on any object
+-- Set name, name_en, and name_ru on any object
 function setNameAttributes()
 	local name = Find("name")
-	local name_de = Find("name:de")
+	local name_ru = Find("name:ru")
 	local name_en = Find("name:en")
-	Attribute("name", fillWithFallback(name, name_en, name_de))
-	Attribute("name_de", fillWithFallback(name_de, name, name_en))
-	Attribute("name_en", fillWithFallback(name_en, name, name_de))
+	Attribute("name", fillWithFallback(name, name_en, name_ru))
+	Attribute("name_ru", fillWithFallback(name_ru, name, name_en))
+	Attribute("name_en", fillWithFallback(name_en, name, name_ru))
 end
 
 -- Return true if way is oneway
@@ -642,7 +642,7 @@ function toBridgeBool(bridge)
 end
 
 function process_streets()
-	local min_zoom_layer = 5
+	local min_zoom_layer = 2
 	local mz = inf_zoom
 	local kind = ""
 	local highway = Find("highway")
@@ -666,13 +666,13 @@ function process_streets()
 			mz = min_zoom_layer
 			kind = "motorway"
 		elseif highway == "trunk" or highway == "trunk_link" then
-			mz = 6
+			mz = 3
 			kind = "trunk"
 		elseif highway == "primary" or highway == "primary_link" then
-			mz = 8
+			mz = 6
 			kind = "primary"
 		elseif highway == "secondary" or highway == "secondary_link" then
-			mz = 9
+			mz = 8
 			kind = "secondary"
 		elseif highway == "tertiary" or highway == "tertiary_link" then
 			mz = 10
@@ -778,10 +778,10 @@ function process_street_labels()
 	local mz = inf_zoom
 	local kind = ""
 	if highway == "motorway" then
-		mz = 10
+		mz = 5
 		kind = highway
 	elseif highway == "trunk" or highway == "primary" then
-		mz = 12
+		mz = 7
 		kind = highway
 	elseif highway == "secondary" or highway == "tertiary" then
 		mz = 13
@@ -1176,7 +1176,7 @@ function attribute_function(attr, layer)
 			attributes["admin_level"] = attr["ADMIN_LEVE"]
 		end
 		attributes["admin_level"] = tonumber(attributes["admin_level"])
-		keys = {"name", "name_de", "name_en", "way_area"}
+		keys = {"name", "name_ru", "name_en", "way_area"}
 		for index, value in ipairs(keys) do
 			if attr[value] == nil then
 				attributes[value] = attr[string.upper(value)]
@@ -1186,11 +1186,11 @@ function attribute_function(attr, layer)
 		end
 		-- Fill with fallback values if empty
 		local name = attributes["name"]
-		local name_de = attributes["name_de"]
+		local name_ru = attributes["name_ru"]
 		local name_en = attributes["name_en"]
-		attributes["name"] = fillWithFallback(name, name_en, name_de)
-		attributes["name_de"] = fillWithFallback(name_de, name, name_en)
-		attributes["name_en"] = fillWithFallback(name_en, name, name_de)
+		attributes["name"] = fillWithFallback(name, name_en, name_ru)
+		attributes["name_ru"] = fillWithFallback(name_ru, name, name_en)
+		attributes["name_en"] = fillWithFallback(name_en, name, name_ru)
 		return attributes
 	end
 	return attr
