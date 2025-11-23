@@ -433,7 +433,7 @@ function process_water_lines()
 	mz = inf_zoom
     if kind == "river" then
         if Holds("name") then
-		    mz = math.max(5, zmin_for_length(4))
+		    mz = math.max(8, zmin_for_length(4))
 		    mz_label = math.max(13, zmin_for_length(4))
         else 
             mz = math.max(9, zmin_for_length(2))
