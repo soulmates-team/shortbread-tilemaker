@@ -10,7 +10,7 @@ function exit_function()
 end
 
 node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename" }
-langs = {"ar","de","el","en","es","fr","it","nl","pl","pt","uk"}
+langs = {"en","ru"}
 
 -- Precompute boundary label attribute keys once for performance
 boundary_label_keys = (function()
