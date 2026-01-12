@@ -10,7 +10,7 @@ function exit_function()
 end
 
 node_keys = { "place", "highway", "railway", "aeroway", "amenity", "aerialway", "shop", "leisure", "tourism", "man_made", "historic", "emergency", "office", "addr:housenumber", "addr:housename" }
-langs = {"ar","de","el","en","es","fr","it","nl","pl","pt","uk"}
+langs = {"en","ru"}
 
 -- Precompute boundary label attribute keys once for performance
 boundary_label_keys = (function()
@@ -86,7 +86,7 @@ function fillWithFallback(value1, value2)
 	return value2
 end
 
--- Set name, name_en, and name_de on any object
+-- Set name, name_en, and name_ru on any object
 function setNameAttributes()
 	-- Base name keeps a pragmatic fallback order: local name, then English
 	Attribute("name", fillWithFallback(Find("name"), Find("name:en")))
@@ -441,7 +441,7 @@ function process_water_lines()
 	mz = inf_zoom
     if kind == "river" then
         if Holds("name") then
-		    mz = math.max(5, zmin_for_length(4))
+		    mz = math.max(8, zmin_for_length(4))
 		    mz_label = math.max(13, zmin_for_length(4))
         else 
             mz = math.max(9, zmin_for_length(2))
@@ -650,7 +650,7 @@ function toBridgeBool(bridge)
 end
 
 function process_streets()
-	local min_zoom_layer = 5
+	local min_zoom_layer = 2
 	local mz = inf_zoom
 	local kind = ""
 	local highway = Find("highway")
@@ -674,13 +674,13 @@ function process_streets()
 			mz = min_zoom_layer
 			kind = "motorway"
 		elseif highway == "trunk" or highway == "trunk_link" then
-			mz = 6
+			mz = 3
 			kind = "trunk"
 		elseif highway == "primary" or highway == "primary_link" then
-			mz = 8
+			mz = 6
 			kind = "primary"
 		elseif highway == "secondary" or highway == "secondary_link" then
-			mz = 9
+			mz = 8
 			kind = "secondary"
 		elseif highway == "tertiary" or highway == "tertiary_link" then
 			mz = 10
@@ -786,10 +786,10 @@ function process_street_labels()
 	local mz = inf_zoom
 	local kind = ""
 	if highway == "motorway" then
-		mz = 10
+		mz = 5
 		kind = highway
 	elseif highway == "trunk" or highway == "primary" then
-		mz = 12
+		mz = 7
 		kind = highway
 	elseif highway == "secondary" or highway == "tertiary" then
 		mz = 13
